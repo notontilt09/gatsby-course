@@ -16,6 +16,7 @@ export default function OrderPage({ data }) {
   const { values, updateValue } = useForm({
     name: '',
     email: '',
+    mapleSyrup: '',
   });
   const { order, addToOrder, removeFromOrder, error, loading, message, submitOrder } = usePizza({
     pizzas,
@@ -29,7 +30,7 @@ export default function OrderPage({ data }) {
     <>
       <SEO title="Order A Pizza" />
       <OrderStyles onSubmit={submitOrder}>
-        <fieldset>
+        <fieldset disabled={loading}>
           <legend>Your Info</legend>
           <label htmlFor="name">
             Name
@@ -38,9 +39,17 @@ export default function OrderPage({ data }) {
           <label htmlFor="email">
             Email
             <input type="email" name="email" id="email" value={values.email} onChange={updateValue} />
+            <input
+              className="mapleSyrup"
+              type="mapleSyrup"
+              name="mapleSyrup"
+              id="mapleSyrup"
+              value={values.mapleSyrup}
+              onChange={updateValue}
+            />
           </label>
         </fieldset>
-        <fieldset className="menu">
+        <fieldset className="menu" disabled={loading}>
           <legend>Menu</legend>
           {pizzas.map((pizza) => (
             <MenuItemsStyles key={pizza.id}>
@@ -58,11 +67,11 @@ export default function OrderPage({ data }) {
             </MenuItemsStyles>
           ))}
         </fieldset>
-        <fieldset className="order">
+        <fieldset className="order" disabled={loading}>
           <legend>Order</legend>
           <PizzaOrder order={order} removeFromOrder={removeFromOrder} pizzas={pizzas} />
         </fieldset>
-        <fieldset>
+        <fieldset disabled={loading}>
           <h3>Your Total is {formatMoney(calculateOrderTotal(order, pizzas))}</h3>
           <div>{error ? <p>Error: {error}</p> : ''}</div>
           <button type="submit" disabled={loading}>

@@ -26,13 +26,14 @@ export default function usePizza({ pizzas, values }) {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setMessage(null);
+    // setMessage(null);
     // gather all the data
     const body = {
       order: attachNamesAndPrices(order, pizzas),
       total: formatMoney(calculateOrderTotal(order, pizzas)),
       name: values.name,
       email: values.email,
+      mapleSyrup: values.mapleSyrup,
     };
     // TODO: 4. Send this data to a serverless function when the check out
     const res = await fetch(`${process.env.GATSBY_SERVERLESS_BASE}/placeOrder`, {
